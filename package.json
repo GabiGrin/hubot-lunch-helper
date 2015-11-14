@@ -1,0 +1,28 @@
+{
+  "name": "hubot-lunch-helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.10.0",
+    "hubot": "^2.16.0"
+  },
+  "devDependencies": {
+    "ava": "^0.4.2",
+    "chai": "^3.4.1",
+    "del": "^2.0.2",
+    "es6-promise": "^3.0.2",
+    "gulp": "^3.9.0",
+    "gulp-ava": "^0.3.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-typescript": "^2.9.2",
+    "hubot-javascript": "0.0.7",
+    "hubot-test-helper": "^1.2.0",
+    "mocha": "^2.3.3"
+  }
+}
