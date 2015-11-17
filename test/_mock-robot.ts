@@ -13,9 +13,27 @@ export class MockResponse extends hubot.Response {
   }
 }
 
+class MockBrain extends hubot.Brain {
+  data = {};
+
+  constructor() {
+    super();
+  }
+
+  set<T>(key: string, value: T) {
+    this.data[key] = value;
+  }
+
+  get<T>(key: string) {
+    return this.data[key];
+  }
+}
+
 export class MockRobot extends hubot.Robot {
 
   adapter: MockRoom;
+
+  brain: MockBrain;
 
   constructor(name = 'hubot', httpd = true) {
     super(null, null, httpd, name);
@@ -29,9 +47,9 @@ export class MockRobot extends hubot.Robot {
 
 export class MockRoom extends hubot.Adapter {
 
-  messages: string[][] = [];
+  messages: string[] = [];
 
-  privateMessages: {[user: string]: string[][]};
+  privateMessages: {[user: string]: string[]};
 
   user = {
     say: (userName, message) => {
@@ -52,7 +70,7 @@ export class MockRoom extends hubot.Adapter {
      */
   receive(userName, message) {
     return new Promise(resolve => {
-      this.messages.push([userName, message]);
+      this.messages.push(message);
       let user = new hubot.User(userName, {room: this.name});
       this.robot.receive(new hubot.TextMessage(user, message), resolve);
     });
@@ -66,7 +84,7 @@ export class MockRoom extends hubot.Adapter {
   reply(envelope, ...strings) {
     console.log('replying!');
     strings.forEach(str => {
-      this.messages.push([this.robot.name, `@${envelope.user.name} ${str}`]);
+      this.messages.push(`@${envelope.user.name} ${str}`);
     });
   }
 
@@ -76,7 +94,7 @@ export class MockRoom extends hubot.Adapter {
       this.privateMessages[userName] = [];
     }
     strings.forEach(str => {
-      this.privateMessages[userName].push([this.robot.name, str]);
+      this.privateMessages[userName].push(str);
     });
   }
 

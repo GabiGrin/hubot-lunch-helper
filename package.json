@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "compile-hubot-so-it-can-be-used-in-tests": "coffee -c node_modules/hubot/src/*.coffee node_modules/hubot/index.coffee",
+    "postinstall": "npm run compile-hubot-so-it-can-be-used-in-tests"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "gulp-typescript": "^2.9.2",
     "hubot-javascript": "0.0.7",
     "hubot-test-helper": "^1.2.0",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "mocha-osx-reporter": "^0.1.2"
   }
 }

@@ -14,13 +14,19 @@ declare module 'hubot' {
     constructor(user: User, message: string);
   }
 
+  export class Brain {
+    get<T>(key: string): T;
+    set<T>(key: string, val: T);
+    emit: any;
+  }
+
   export class Robot {
     name: string;
     constructor(adapterPath, adapter, httpd, name, alias?);
     adapter: Adapter;
     server: any;
     emit: any;
-    brain: any;
+    brain: Brain;
 
     loadFile(folder, file);
     shutdown();

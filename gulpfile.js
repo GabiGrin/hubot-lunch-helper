@@ -2,12 +2,15 @@
 var gulp = require('gulp');
 
 var ts = require('gulp-typescript');
-var ava = require('gulp-ava');
 var del = require('del');
 var mocha = require('gulp-mocha');
 
-gulp.task('default', function () {
-  return gulp.src('src/**/*.ts')
+gulp.task('default', ['test'], function () {
+  gulp.watch(['test/*.ts', 'src/*.ts'], ['test']);
+});
+
+gulp.task('build', function () {
+  return gulp.src(['src/**/*.ts', 'typings/**/*.ts'])
     .pipe(ts({
       noExternalResolve: true,
       module: 'commonjs',
@@ -30,15 +33,11 @@ gulp.task('compile-tests', ['clean-compiled-tests'], function () {
     .pipe(gulp.dest('test-compiled/'));
 });
 
-gulp.task('test',  ['compile-tests'], function () {
+gulp.task('test',  ['compile-tests', 'build'], function () {
   // return gulp.src('test-compiled/**/*.js')
   //   .pipe(ava());
   return gulp.src('test-compiled/spec.js', {read: false})
       // gulp-mocha needs filepaths so you can't have any plugins before it
-      .pipe(mocha({reporter: 'nyan'}));
-});
-
-
-gulp.task('test-watch', function () {
-  gulp.watch('test/*.ts', ['test']);
+      // .pipe(mocha({reporter: 'mocha-osx-reporter'}));
+      .pipe(mocha());
 });
